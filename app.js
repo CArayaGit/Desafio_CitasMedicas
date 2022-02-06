@@ -2,7 +2,7 @@
 const http = require('http');
 const url = require('url');
 const axios = require('axios');
-//const chalk = require('chalk');
+//const chalk = require('chalk'); //chalk genera un error al correr el servidor
 const {v4: uuidv4} = require('uuid');
 const _ = require('lodash');
 const moment = require('moment');
@@ -29,6 +29,8 @@ const server = http.createServer( async (req, res) => {
         citas.forEach((cita) => {
             res.write(`<li>Nombre: ${cita.nombre} - Apellido: ${cita.apellido} - ID: ${cita.id} - Timestamp: ${cita.time}`)
         })
+
+        console.log(_.defaults(citas));
 
         res.end()
 
