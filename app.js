@@ -1,17 +1,20 @@
 
-const http = require('http')
-const axios = require('axios')
-const chalk = require('chalk')
-const {v4: uuidv4} = require('uuid')
-const _ = require('lodash')
-let citas = []
-const moment = require('moment')
+const http = require('http');
+const url = require('url');
+const axios = require('axios');
+//const chalk = require('chalk');
+const {v4: uuidv4} = require('uuid');
+const _ = require('lodash');
+const moment = require('moment');
+let citas = [];
 
-http.createServer( async (req, res) => {
-    console.log(req.url);
+const server = http.createServer( async (req, res) => {
+ 
     if(req.url.includes("/citas")){
         res.writeHead(200, {'Content-Type': 'text/html'})
-        const {data} = await axios.get('https://randomuser.me/api')
+        const data = await axios.get('https://randomuser.me/api')
+        .then((data) => {
+
         const fechaRegistro = moment().format('MMM Do YYYY, h:mm:ss a');
         const id = uuidv4().slice(30)
 
@@ -29,22 +32,9 @@ http.createServer( async (req, res) => {
 
         res.end()
 
-        })
+        }).catch(e => {console.log(e)})
         
-}).listen(5000, () => {
-    console.log('Servidor arriba');
+    }
+        
 })
-
-
-
-   //Consulta datos API con axios:
-    //const axios = require('axios').default;
-/*
-    axios.get('https://randomuser.me/api')
-    .then((data) => {
-        const nombre = data.data.results[0].name.first;
-        const apellido = data.data.results[0].name.last; 
-        //console.log(data.data.results[0].name.first);
-        console.log(`Nombre: ${nombre} - Apellido: ${apellido}`);
-    })
-*/
+server.listen(5000, () => console.log('Servidor arriba'));
